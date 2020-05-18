@@ -1,5 +1,5 @@
-const { putUser, getUser, getUserById, updateUser, deleteUser } = require('./users');
-const { putPost, getPost, getPostById, updatePost, deletePost, showUserPosts }  = require('./posts');
+const { putUser, getUser, getUserById, updateUser, deleteUser } = require('./handlers/users');
+const { putPost, getPost, getPostById, updatePost, deletePost, showUserPosts }  = require('./handlers/posts');
 
 const express = require('express');
 const bodyParser = require('body-parser');

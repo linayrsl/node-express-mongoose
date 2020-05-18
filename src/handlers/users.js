@@ -1,10 +1,11 @@
-const User = require('./models/user');
+const User = require('../models/user');
+const HttpStatus = require('http-status-codes');
 
 const putUser = (req, res) => {
     const user = new User(req.body);
     user.save()
-        .then((user) => res.status(201).json(user))
-        .catch((err => res.status(400).json(err)))
+        .then((user) => res.status(HttpStatus.CREATED).json(user))
+        .catch((err => res.status(HttpStatus.BAD_REQUEST).json(err)))
 };
 
 const getUser = (req, res) => {
@@ -17,7 +18,7 @@ const getUserById = (req, res) => {
     User.findById(req.params.id)
         .then((user) => {
             if (!user) {
-                res.sendStatus((404));
+                res.sendStatus((HttpStatus.NOT_FOUND));
                 return;
             }
             res.json(user)
@@ -29,29 +30,29 @@ const updateUser = (req, res) => {
     User.findById(req.params.id)
         .then(user => {
             if(!user) {
-                res.sendStatus(404);
+                res.sendStatus(HttpStatus.NOT_FOUND);
                 return;
             }
             user.update(req.body)
-                .then(() => res.sendStatus(200))
-                .catch(err => res.status(400).json(err));
+                .then(() => res.sendStatus(HttpStatus.OK)
+                .catch(err => res.status(HttpStatus.BAD_REQUEST).json(err));
         })
-        .catch(err => res.status(400).json(err));
+        .catch(err => res.status(HttpStatus.BAD_REQUEST).json(err));
 };
 
 const deleteUser = (req, res) => {
     User.findById(req.params.id)
         .then((user) => {
             if (!user) {
-                res.sendStatus((404));
+                res.sendStatus((HttpStatus.NOT_FOUND));
                 return;
             }
             user.remove()
-                .then(() => res.sendStatus(204))
-                .catch(error => res.status(400).json(error));
+                .then(() => res.sendStatus(HttpStatus.NO_CONTENT)
+                .catch(error => res.status(HttpStatus.BAD_REQUEST).json(error));
 
         })
-        .catch(error => res.status(400).json(error));
+        .catch(error => res.status(HttpStatus.BAD_REQUEST).json(error));
 };
 
 module.exports = {
